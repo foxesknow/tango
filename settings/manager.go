@@ -38,6 +38,11 @@ func Value(setting string) (string, bool) {
 	return p.GetSetting(name)
 }
 
+func GetProvider(name string) Provider {
+	p, _ := getProvider(name)
+	return p
+}
+
 func normalizeName(name string) string {
 	return strings.ToLower(name)
 }
