@@ -44,7 +44,7 @@ func ExpandText(value string, config ExpandTextConfig) (string, error) {
 
 		endIndex := strings.Index(value, config.End)
 		if endIndex == -1 {
-			break
+			return "", fmt.Errorf("could not find end token '%s' in text", config.End)
 		}
 
 		token := value[0:endIndex]
@@ -127,7 +127,7 @@ func applyFormatting(value any, format string) (string, error) {
 		return fmt.Sprint(value), nil
 	}
 
-	if i := value.(formatter); i != nil {
+	if i, ok := value.(formatter); ok {
 		return i.Format(format), nil
 	}
 
