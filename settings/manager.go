@@ -18,6 +18,7 @@ const (
 func init() {
 	allSettings["env"] = providers.NewEnvironmentSettings()
 	allSettings["os"] = providers.NewOSSettings()
+	allSettings["datetime"] = &providers.DateTimeSettings{}
 }
 
 // Checks to see if a provider is registered

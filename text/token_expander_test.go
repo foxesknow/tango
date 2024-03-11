@@ -239,3 +239,19 @@ func Test_ExpandText_Format_Not_Supported(t *testing.T) {
 		t.Fatal("expansion should have failed")
 	}
 }
+
+func Test_ExpandText_DateTime(t *testing.T) {
+	config := ExpandTextConfig{
+		Begin: "${",
+		End:   "}",
+	}
+
+	value, err := ExpandText("${datetime:now|YYYYMMDD}", config)
+	if err != nil {
+		t.Fatal("expansion failed")
+	}
+
+	if len(value) != 8 {
+		t.Fatal("expansion failed")
+	}
+}
