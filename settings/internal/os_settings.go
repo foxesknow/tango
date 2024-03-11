@@ -33,7 +33,7 @@ func NewOSSettings() *OSSettings {
 	return &settings
 }
 
-func (self *OSSettings) GetSetting(name string) (value string, found bool) {
+func (self *OSSettings) GetSetting(name string) (value any, found bool) {
 	value, found = self.values[strings.ToLower(name)]
 	return
 }

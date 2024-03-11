@@ -3,7 +3,7 @@ package settings
 import "maps"
 
 type Provider interface {
-	GetSetting(name string) (value string, found bool)
+	GetSetting(name string) (value any, found bool)
 }
 
 type mapProvider struct {
@@ -18,7 +18,7 @@ func FromMap(data map[string]string) Provider {
 	}
 }
 
-func (m *mapProvider) GetSetting(name string) (value string, found bool) {
+func (m *mapProvider) GetSetting(name string) (value any, found bool) {
 	value, found = m.data[name]
 	return
 }
@@ -39,7 +39,7 @@ func Cons(head Provider, tail Provider) Provider {
 	}
 }
 
-func (c *cons) GetSetting(name string) (value string, found bool) {
+func (c *cons) GetSetting(name string) (value any, found bool) {
 	value, found = c.head.GetSetting(name)
 	if !found {
 		value, found = c.tail.GetSetting(name)
@@ -63,7 +63,7 @@ func NameValue(name string, value string) Provider {
 	}
 }
 
-func (nv *nameValue) GetSetting(name string) (value string, found bool) {
+func (nv *nameValue) GetSetting(name string) (value any, found bool) {
 	if nv.name == name {
 		value = nv.value
 		found = true

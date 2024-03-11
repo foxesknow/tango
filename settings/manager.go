@@ -11,6 +11,10 @@ import (
 var allSettings = make(map[string]Provider)
 var lock sync.Mutex
 
+const (
+	NamespaceVariableSeparator = ":"
+)
+
 func init() {
 	allSettings["env"] = providers.NewEnvironmentSettings()
 	allSettings["os"] = providers.NewOSSettings()
@@ -24,7 +28,7 @@ func IsRegistered(provider string) bool {
 
 // Returns the value for a setting.
 // The setting must be in Provider:Name format
-func Value(setting string) (string, bool) {
+func Value(setting string) (any, bool) {
 	provider, name, err := extractProviderAndName(setting)
 	if err != nil {
 		return "", false
@@ -56,10 +60,10 @@ func getProvider(name string) (provider Provider, found bool) {
 }
 
 func extractProviderAndName(value string) (string, string, error) {
-	pivot := strings.Index(value, ":")
+	pivot := strings.Index(value, NamespaceVariableSeparator)
 
 	if pivot == -1 {
-		return "", "", fmt.Errorf("could not find :")
+		return "", "", fmt.Errorf("could not find '%s'", NamespaceVariableSeparator)
 	}
 
 	provider := value[:pivot]
